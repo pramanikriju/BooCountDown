@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Text } from 'native-base';
+import { Container, Header, Title, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import moment from 'moment';
 
 
@@ -7,50 +7,87 @@ import moment from 'moment';
 export default class GeneralExample extends Component {
   constructor(props) {
     super(props);
-    //initialize the counter duration
-    this.state = {
-      totalDuration: '',
-    };
+
+    var milliseconds = '';
+
+    this.state = { 
+      days : '',
+      hours : '',
+      minutes : '',
+      seconds: '',
+      milliseconds: '99999999',
+     };
   }
 
-  componentDidMount() {
-    var that = this;
-
-    //We are showing the coundown timer for a given expiry date-time
-    //If you are making an quize type app then you need to make a simple timer
-    //which can be done by using the simple like given below
-    //that.setState({ totalDuration: 30 }); //which is 30 sec
-
+  tick() {
     var date = moment()
       .utcOffset('+05:30')
       .format('YYYY-MM-DD hh:mm:ss');
-    //Getting the current date-time with required formate and UTC   
-    
-    var expirydate = '2019-10-23 04:00:45';//You can set your own date-time
-    //Let suppose we have to show the countdown for above date-time 
 
+    var expirydate = '2019-08-29 07:00:45';
+    
+ 
     var diffr = moment.duration(moment(expirydate).diff(moment(date)));
     //difference of the expiry date-time given and current date-time
-
+    var days = parseInt(diffr.asDays());
     var hours = parseInt(diffr.asHours());
     var minutes = parseInt(diffr.minutes());
     var seconds = parseInt(diffr.seconds());
-    
-    var d = hours * 60 * 60 + minutes * 60 + seconds;
-    //converting in seconds
-
-    that.setState({ totalDuration: d });
-    //Settign up the duration of countdown in seconds to re-render
+    this.setState(prevState => ({
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+      milliseconds : prevState.milliseconds -1,
+    }));
   }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.tick(), 1);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   render() {
+
     return (
       <Container>
-        <Button>
-          <Text>
-            Button
-          </Text>
-        </Button>
-      </Container>
+      <Header>
+        <Left>
+          <Button transparent>
+            <Icon name='clock' />
+          </Button>
+        </Left>
+        <Body>
+          <Title>Boo</Title>
+        </Body>
+        <Right />
+      </Header>
+      <Content>
+        <Text>
+         {this.state.days}
+        </Text>
+        <Text>
+        {this.state.hours}
+        </Text>
+        <Text>
+        {this.state.minutes}
+        </Text>
+        <Text>
+        {this.state.seconds}
+        </Text>
+        <Text>
+        {this.state.milliseconds}
+        </Text>
+        <Text>
+        {this.state.check}
+        </Text>
+      
+      
+      </Content>
+    </Container>
     );
   }
 }
