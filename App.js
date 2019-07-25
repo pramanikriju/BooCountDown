@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
   smallBoo: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 60
+    fontSize: 50
   },
   boo: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 30
+    fontSize: 15
   },
   centerAll: {
     justifyContent: "center",
@@ -194,8 +194,8 @@ export default class BooCountDown extends Component {
 
         <View
           style={{
-            flex: 1.5,
-            backgroundColor: "steelblue",
+            flex: 1,
+            backgroundColor: "#546E7A",
             justifyContent: "center",
             alignItems: "center"
           }}
